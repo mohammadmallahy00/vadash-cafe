@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa-IR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>کافه واداش</title>
+    <style>
+        /* بارگذاری فونت سفارشی Sahel VF */
+        @font-face {
+            font-family: "Sahel VF";
+            src: url('Images/Sahel-VF.woff2') format('woff2');
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Sahel-VF", sans-serif;
+            background-color: rgba(60,40,50,255);
+            background-size: contain;
+            background-position: center;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        /* استایل هدر و لوگو و نوار جستجو */
+        header {
+            background-color: rgba(80,60,70,255);
+            padding: 5px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* فاصله خالی بین محتوای اصلی و نوار پایین */
+        .spacer {
+            height: 100px; /* تنظیم ارتفاع فاصله */
+        }
+
+        /* استایل نوار پایین */
+        .bottom-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            height: 480px;
+            padding: 15px;
+            background-color: rgba(80,60,70,1);
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            border-top-left-radius: 25px;
+            border-top-right-radius: 25px;
+            bottom: 0;
+            width: 100%;
+            z-index: 999;
+
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: thin;
+        }
+        .bottom-bar h3 {
+            font-family: "Sahel VF";
+            color: white;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* استایل آیکون‌ها و لینک‌های شبکه اجتماعی */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 5px;
+
+        }
+        
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            flex-direction: column;
+            font-family: "Sahel VF";
+            color: white;
+            font-size: 12px;
+
+        }
+
+        .social-links img {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+                  
+        }
+
+        /* استایل اطلاعات تماس */
+        .contact-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            direction: rtl;
+            width: 100%;
+            margin-bottom: -15px;
+            font-family: "Sahel VF";
+            color: white;
+        }
+
+        .contact-info .label {
+            color: white;
+            font-size: 14px;
+        }
+
+        .contact-info .number a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .contact-info .address a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .contact-info .number a:hover {
+            text-decoration: underline;
+        }
+
+        /* استایل نقشه */
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* مرکزچین کردن نقشه به صورت عمودی */
+            justify-content: center; /* مرکزچین کردن به صورت افقی */
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 200px;
+            max-width: 400px;
+            border: 0;
+            border-radius: 10px;
+        }
+
+        .logo-container {
+            background-color: rgba(48,32,37,255); /* رنگ پس‌زمینه */
+            padding: 20px; /* فاصله داخلی برای ایجاد مربع */
+            width: 60px; /* عرض و ارتفاع ثابت برای ایجاد مربع */
+            height: 60px;
+            border-radius: 10px; /* گرد کردن گوشه‌ها */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 50px;
+            height: auto;
+            margin-left: 10px; /* فاصله از سمت چپ */
+            margin-right: 10px; /* فاصله از سمت راست */
+        }
+        .search-bar {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            margin: 0px 20px; /* فاصله از سمت چپ و راست */
+            font-family: "Sahel VF";
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #522727;
+            border-radius: 25px;
+            background-color: rgba(70,50,60,255); 
+            color: #ffffff; /* رنگ متن داخل نوار جستجو */
+            font-family: "Sahel VF";
+        }
+        .search-bar input::placeholder {
+            color: #ffffff; /* رنگ placeholder به سفید */
+        }
+
+        /* نوار بخش‌ها در وسط با آیکون */
+        .categories {
+            display: flex;
+            justify-content: flex-start; /* محتوا از ابتدا شروع شود */
+            align-items: center;
+            gap: 30px;
+            padding: 10px;
+            background-color: rgba(80,60,70,255);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 70px;
+            z-index: 999;
+            overflow-x: auto; /* اسکرول افقی */
+            white-space: nowrap; /* جلوگیری از شکستن خطوط */
+            border-bottom-left-radius: 25px; /* گوشه پایین سمت چپ */
+            border-bottom-right-radius: 25px; /* گوشه پایین سمت راست */
+            scrollbar-width: thin; /* اسکرول بار نازک‌تر در فایرفاکس */     
+        }
+        /* برای زیبایی اسکرول بار در Webkit */
+        .categories::-webkit-scrollbar {
+            height: 6px;
+            }
+        .categories::-webkit-scrollbar-thumb {
+             background-color: #ccc;
+             border-radius: 3px;
+            }
+        .category-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: #ffffff;
+            font-size: 14px;
+            font-variation-settings: "wght" 500;
+            width: 60px; /* محدود کردن عرض لینک */
+            text-align: center; /* وسط چین کردن متن */
+            font-family: "Sahel VF"
+            
+        }
+         /* استایل نوار فعال */
+        .category-link.active {
+            color: rgba(243,146,42,255);
+            font-weight: bold;
+            
+        }
+        .category-link img {
+            width: 60px; /* بزرگتر کردن آیکون */
+            height: 60px; /* بزرگتر کردن آیکون */
+            padding: 5px; /* فاصله داخلی برای ایجاد فضای بین آیکون و دایره */
+            border: 2px solid #e7e6e6; /* خط دور دایره */
+            border-radius: 50%; /* ایجاد دایره دور آیکون */
+            margin-bottom: 5px;
+        }
+
+        .container {
+            margin-top: 80px;
+            padding: 10px;
+
+        }
+
+
+        h2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-margin-top: 200px; /* ارتفاع هدر */
+            color: rgba(243,146,42,255);
+            font-size: 24px;
+            margin: 20px 20px;
+            position: relative;
+            text-align: center;
+        }
+        h2::before,
+        h2::after {
+            content: "";
+            flex: 1; /* پر کردن فضا در دو طرف */
+            height: 4px; /* ضخامت خط */
+            background-color: rgba(243,146,42,255); /* رنگ خط */
+            margin: 0 10px; /* فاصله از متن */
+        }
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        /* تنظیم محصولات در صفحات بزرگ‌تر */
+        .menu-items {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .menu-item {
+            background-color: rgba(80,60,70,255);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: row-reverse; /* عکس در سمت راست */
+            justify-content: flex-start; /* تنظیم جهت برای چسباندن نام به عکس */
+            justify-content: flex-end; /* محتوا به سمت راست چسبیده باشد */
+            align-items: center;
+            min-width: 300px;
+            max-width: 300px;
+            height: auto;
+            gap: 5px; /* فاصله کم بین تصویر و محتوای آیتم */
+        }
+        .menu-item img {
+            width: 120px; /* عرض ثابت برای تصویر */
+            height: 120px; /* ارتفاع متناسب با عرض */
+            object-fit: cover; /* نمایش مناسب برای جلوگیری از کشیده شدن */
+            border-top-right-radius: 15px; /* گرد کردن گوشه بالا سمت راست */
+            border-bottom-right-radius: 15px; /* گرد کردن گوشه پایین سمت راست */
+        }
+        .menu-item-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .menu-item h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            justify-content: center;
+            align-items: flex-start;
+            margin-right: 5px; /* فاصله از سمت راست */
+            margin-top: 5px; /* فاصله از بالا */
+            margin-bottom:40px; /* فاصله از قیمت */
+            font-family: "Sahel VF"
+            
+            
+        }
+        .menu-item p {
+            font-size: 14px;
+            color: #ffffff;
+            margin-bottom: 10px;
+            margin-right: 5px; /* فاصله از سمت راست */
+            margin-bottom: 10px !important; /* فاصله از پایین */
+            
+            font-family: "Sahel VF"
+        }
+        .menu-item .price {
+            font-size: 14px;
+            color: #fdfdfd;
+            margin-right: 5px; /* فاصله از سمت راست */
+            font-family: "Sahel VF"
+        }
+
+        /* نمایش عمودی در گوشی‌ها */
+        @media (max-width: 600px) {
+            .menu-items {
+                flex-direction: column;
+                overflow-x: hidden;
+                overflow-y: auto;
+                gap: 10px;
+
+            }
+            .menu-item {
+                width: 100%;
+                max-width: 100%;
+            }
+            .menu-item img {
+                width: 120px; /* عرض ثابت برای تصویر */
+                height: 120px; /* ارتفاع متناسب با عرض */
+                object-fit: cover; /* نمایش مناسب برای جلوگیری از کشیده شدن */
+            }           
+        }
+
+
+        /* تنظیمات مرکز چین فقط برای صفحات بزرگ‌تر از 768 پیکسل */
+        @media (min-width: 768px) {
+            /* مرکز کردن نوار بخش‌ها */
+            .categories {
+                justify-content: center;
+                max-width: 1200px;
+                margin: auto;
+                
+            }
+
+            .container {
+            margin-top: 80px;
+            padding: 10px;
+
+            }
+
+
+            /* تنظیمات آیتم‌های منو */
+            .menu-item {
+                background-color: rgba(80,60,70,255);
+                display: flex;
+                align-items: center;
+                width: 300px;
+                gap: 5px;
+                margin-bottom: 20px;
+                border-radius: 15px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- هدر شامل لوگو و نوار جستجو -->
+    <header>
+        <div class="logo-container">
+            <img src="Images/logo.png" alt="Cafe Logo" class="logo">
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="جستجوی محصولات..." onkeyup="searchMenu()">
+        </div>
+    </header>
+
+<!-- نوار بخش‌ها با آیکون‌ها -->
+<nav class="categories">
+    <a href="#coffee" class="category-link" id="link-coffee">
+        <img src="Images/coffee-icon.png" alt="Coffee Icon">
+        قهوه
+    </a>
+    <a href="#tea" class="category-link" id="link-tea">
+        <img src="Images/tea-icon.png" alt="Tea Icon">
+        چای
+    </a>
+    <a href="#cold-coffee" class="category-link" id="link-cold-coffee">
+        <img src="Images/icecoffee-icon.png" alt="Cold Coffee Icon">
+        قهوه‌های سرد
+    </a>
+    <a href="#milkshake" class="category-link" id="link-milkshake">
+        <img src="Images/Milkshake-icon.png" alt="Milkshake Icon">
+        میلک شیک
+    </a>
+    <a href="#chocolate" class="category-link" id="link-chocolate">
+        <img src="Images/chocolate-icon.png" alt="Chocolate Icon">
+        چاکلت
+    </a>
+    <a href="#juice" class="category-link" id="link-juice">
+        <img src="Images/juice-icon.png" alt="Juice Icon">
+        آبمیوه
+    </a>
+    <a href="#drinks" class="category-link" id="link-drinks">
+        <img src="Images/drinks-icon.png" alt="Drinks Icon">
+        نوشیدنی
+    </a>
+    <a href="#cake-and-dessert" class="category-link" id="link-cake-and-dessert">
+        <img src="Images/cakeanddessert-icon.png" alt="Cake and dessert Icon">
+        کیک و دسر
+    </a>
+    <a href="#snacks-and-food" class="category-link" id="link-snacks-and-food">
+        <img src="Images/snacksandfood-icon.png" alt="Snacks and food Icon">
+        میان وعده و غذا
+    </a>
+    <a href="#souvenir" class="category-link" id="link-souvenir">
+        <img src="Images/souvenir-icon.png" alt="Souvenir Icon">
+        سوغاتی
+    </a>
+    <a href="#handicrafts" class="category-link" id="link-handicrafts">
+        <img src="Images/handicrafts-icon.png" alt="Handicrafts Icon">
+        صنایع دستی
+    </a>
+</nav>
+
+    <!-- بخش محصولات -->
+    <div class="container" id="menu-container">
+        <div class="menu-section" id="coffee">
+            <!-- بخش قهوه -->
+      
+            <h2 id="coffee">قهوه‌های واداش</h2>
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>لاته</h3>
+                        <p></p>
+                        <p class="price">95,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>کاپوچینو</h3>
+                        <p></p>
+                        <p class="price">50,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>قهوه مخصوص</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اسپرسو</h3>
+                        <p></p>
+                        <p class="price">50,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="tea">
+            <!-- بخش چای -->
+            <h2 id="tea">چای‌های واداش</h2>
+
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>چای</h3>
+                        <p></p>
+                        <p class="price">40,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>چای کرک</h3>
+                        <p></p>
+                        <p class="price">50,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="cold-coffee">
+            <!-- بخش قهوه‌های سرد-->
+            <h2 id="cold-coffee">قهوه‌های سرد واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ایس لاته</h3>
+                        <p></p>
+                        <p class="price">95,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ایس موکا</h3>
+                        <p></p>
+                        <p class="price">105,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ایس امریکانو</h3>
+                        <p></p>
+                        <p class="price">65,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>افگاتو</h3>
+                        <p></p>
+                        <p class="price">85,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ایس کافی کارامل</h3>
+                        <p></p>
+                        <p class="price">95,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>کلد برو</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="milkshake">
+            <!-- بخش میلک شیک-->
+            <h2 id="milkshake">میلک شیک‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیک نوتلا</h3>
+                        <p></p>
+                        <p class="price">130,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیک اورئو</h3>
+                        <p></p>
+                        <p class="price">130,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیک توت فرنگی</h3>
+                        <p></p>
+                        <p class="price">130,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیک مخصوص</h3>
+                        <p></p>
+                        <p class="price">180,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیر موز</h3>
+                        <p></p>
+                        <p class="price">60,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیر موز بستنی</h3>
+                        <p></p>
+                        <p class="price">70,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیر انبه</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیر طالبی</h3>
+                        <p></p>
+                        <p class="price">55,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>بستنی طالبی</h3>
+                        <p></p>
+                        <p class="price">55,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اب هویچ بستنی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="chocolate">
+            <!-- بخش چاکلت-->
+            <h2 id="chocolate">چاکلت‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>هات چاکلت</h3>
+                        <p></p>
+                        <p class="price">90,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیر کاکائو</h3>
+                        <p></p>
+                        <p class="price">30,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="juice">
+            <!-- بخش آبمیوه-->
+            <h2 id="juice">آبمیوه‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اب انبه</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اب طالبی</h3>
+                        <p></p>
+                        <p class="price">45,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اب هویچ</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اب پرتقال</h3>
+                        <p></p>
+                        <p class="price">90,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="drinks">
+            <!-- بخش نوشیدنی-->
+            <h2 id="drinks">نوشیدنی‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اب لایت بلو</h3>
+                        <p></p>
+                        <p class="price">6,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>شیر</h3>
+                        <p></p>
+                        <p class="price">25,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="cake-and-dessert">
+            <!-- بخش کیک و دسر-->
+            <h2 id="cake-and-dessert">کیک و دسر‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>دسر شعریه</h3>
+                        <p></p>
+                        <p class="price">60,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>حلوا شعریه</h3>
+                        <p></p>
+                        <p class="price">20,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>لقمه شعریه</h3>
+                        <p></p>
+                        <p class="price">15,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>دسر علروتی</h3>
+                        <p></p>
+                        <p class="price">120,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>گردو عسلی</h3>
+                        <p></p>
+                        <p class="price">90,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>دسر کاکائوی</h3>
+                        <p></p>
+                        <p class="price">50,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>کوکی نوتلا</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>چینگال</h3>
+                        <p></p>
+                        <p class="price">120,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>حلوا فیل</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>حلوا محلی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>دونات</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>عین الجمل</h3>
+                        <p></p>
+                        <p class="price">17,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>خرما گردویی</h3>
+                        <p></p>
+                        <p class="price">15,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>خرما دیری</h3>
+                        <p></p>
+                        <p class="price">رایگان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>              
+        </div>
+
+        <div class="menu-section" id="snacks-and-food">
+            <!-- بخش میان وعده و غذا-->
+            <h2 id="snacks-and-food">میان وعده و غذا‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>نان محلی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ساندویچ کولی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>فلافل محلی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>سمبوبه محلی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>سمبوبه میگو</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>پنیر نوتلا</h3>
+                        <p></p>
+                        <p class="price">45,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>مرغ پنیر پیتزا</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>سوسیس بندری</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>اندومی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section" id="souvenir">
+            <!-- بخش سوغاتی-->
+            <h2 id="souvenir">سوغاتی‌های واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ترشی انبه</h3>
+                        <p></p>
+                        <p class="price">170,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ادویه‌های محلی</h3>
+                        <p></p>
+                        <p class="price">80,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>کولی خشک</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>میگو خشک</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>             
+        </div>
+
+        <div class="menu-section" id="handicrafts">
+            <!-- بخش صنایع دستی-->
+            <h2 id="handicrafts"> صنایع دستی واداش</h2>
+        
+            <!-- بخش محصولات این بخش -->
+            <div class="menu-items">
+        
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>ماگ ویترای</h3>
+                        <p></p>
+                        <p class="price">150,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>برکعه</h3>
+                        <p></p>
+                        <p class="price">390,000تومان</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+
+                <div class="menu-item">
+                    <div class="menu-item-content">
+                        <h3>کلاه ساحلی</h3>
+                        <p></p>
+                        <p class="price">ناموجود</p>
+                    </div>
+                    <img src="Images/tea.jpg" alt="Drink Image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="spacer"></div> <!-- ایجاد فاصله خالی بین محتوا و نوار پایین -->
+
+    
+    <!-- نوار پایین با اطلاعات تماس و صفحات مجازی -->
+    <div class="bottom-bar">
+        <h3>برای اطلاع از رویدادها و جشنواره‌ها<br> ما را در شبکه‌های اجتماعی دنبال کنید...</h3>
+        
+        <!-- لینک‌ها و آیکون صفحات مجازی -->
+        <div class="social-links">
+            <a href="https://instagram.com/yourusername" target="_blank">
+                <img src="Images/instagram-icon.png" alt="Instagram">
+                mamaddracula
+            </a>
+            <a href="https://instagram.com/yourusername" target="_blank">
+                <img src="Images/instagram-icon.png" alt="Instagram">
+                mamaddracula
+            </a>
+            <a href="https://instagram.com/yourusername" target="_blank">
+                <img src="Images/instagram-icon.png" alt="Instagram">
+                mamaddracula
+            </a>
+        </div>
+
+        <div class="contact-info">
+            <span class="label">شماره تماس:</span>
+            <span class="number"><a href="tel:+1234567890">+1234567890</a></span>
+        </div>
+        <div class="contact-info">
+            <span class="label">شماره تماس:</span>
+            <span class="number"><a href="tel:+1234567890">+1234567890</a></span>
+        </div>
+        <div class="contact-info">
+            <span class="label">آدرس:</span>
+            <span class="address"><a href="https://maps.app.goo.gl/yXpQKbGaodeZ1JVJ7">قشم، بندر لافت، اسکله گردشگری</a></span>
+        </div>
+        <!-- نقشه گوگل -->
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d222.3922812310694!2d55.7583655!3d26.8947186!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ef7f3001aa7513d%3A0x20a826c6bab0fdcf!2z2qnYp9mB2Ycg2LPZiNi62KfYqiDZiNin2K_Yp9i0!5e0!3m2!1sfa!2sse!4v1730337082879!5m2!1sfa!2sse" 
+                allowfullscreen="" 
+                loading="lazy">
+            </iframe>
+            <p><a href="https://maps.app.goo.gl/yXpQKbGaodeZ1JVJ7" target="_blank" style="color: white; font-family: Sahel VF; font-size: 12px;">مشاهده در گوگل مپ</a></p>
+        </div>
+    </div>
+
+
+    <script>
+        function searchMenu() {
+            const input = document.getElementById('search-input').value.toLowerCase();
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            menuItems.forEach(item => {
+                const name = item.querySelector('h3').textContent.toLowerCase();
+                if (name.includes(input)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+    </script>
+
+
+
+
+    <script>
+        document.querySelectorAll('.category-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                const offset = 200;
+
+                window.scrollTo({
+                    top: targetElement.offsetTop - offset,
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // همگام سازی با اسکرول
+        document.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.menu-section');
+            const navLinks = document.querySelectorAll('.category-link');
+
+            let activeSectionId = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 250;
+                const sectionBottom = sectionTop + section.offsetHeight;
+
+                if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                    activeSectionId = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === activeSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+
+    
+
+
+
+</body>
+</html>
